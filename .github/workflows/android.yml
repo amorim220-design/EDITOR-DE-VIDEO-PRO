@@ -24,7 +24,20 @@ jobs:
       run: chmod +x gradlew
 
     - name: Build with Gradle
-      run: ./gradlew assembleDebug
+      run: |
+        # Try to use the wrapper first. If it fails with "corrupt jar", try using system gradle to fix it or run build.
+        if ! ./gradlew --version > /dev/null 2>&1; then
+          echo "Gradle wrapper appears to be corrupt. Attempting to fix it..."
+          # If the system has gradle, we can try to regenerate. Ubuntu runners usually have gradle.
+          if command -v gradle > /dev/null; then
+            gradle wrapper --gradle-version 9.3.1
+            chmod +x gradlew
+          else
+            echo "System gradle not found, cannot fix wrapper automatically."
+            exit 1
+          fi
+        fi
+        ./gradlew assembleDebug
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
