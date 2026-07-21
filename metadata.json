@@ -1,0 +1,6 @@
+{
+  "name": "ProVideo Editor",
+  "description": "Professional offline video editor with AI tools, multi-track timeline, and high-quality export.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
