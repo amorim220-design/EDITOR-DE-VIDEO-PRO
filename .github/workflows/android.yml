@@ -38,6 +38,10 @@ jobs:
           fi
         fi
         ./gradlew assembleDebug
+        - name: List generated APK and classes
+     run: |
+       find app/build -name "*.apk"
+       jar tf app/build/outputs/apk/debug/app-debug.apk | grep MainActivity || true
 
     - name: Upload APK
       uses: actions/upload-artifact@v4
