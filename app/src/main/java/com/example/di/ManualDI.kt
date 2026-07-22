@@ -11,13 +11,23 @@ object ManualDI {
     private var repository: EditorRepository? = null
     private var exporter: VideoExporter? = null
 
+    fun initialize(context: Context) {
+        if (database == null) {
+            database = Room.databaseBuilder(
+                context.applicationContext,
+                EditorDatabase::class.java,
+                "editor_database"
+            ).fallbackToDestructiveMigration().build()
+        }
+    }
+
     fun getRepository(context: Context): EditorRepository {
         if (repository == null) {
             val db = database ?: Room.databaseBuilder(
                 context.applicationContext,
                 EditorDatabase::class.java,
                 "editor_database"
-            ).build().also { database = it }
+            ).fallbackToDestructiveMigration().build().also { database = it }
             repository = EditorRepository(db.projectDao(), db.clipDao())
         }
         return repository!!
