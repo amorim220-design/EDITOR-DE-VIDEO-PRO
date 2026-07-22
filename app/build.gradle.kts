@@ -129,3 +129,15 @@ dependencies {
   "ksp"(libs.androidx.room.compiler)
   "ksp"(libs.moshi.kotlin.codegen)
 }
+tasks.register("verifyMainActivity") {
+    doLast {
+        val file = file("src/main/java/com/example/MainActivity.kt")
+        println("====================================")
+        println("MainActivity exists: ${file.exists()}")
+        println("Path: ${file.absolutePath}")
+        if (file.exists()) {
+            println(file.readText().take(300))
+        }
+        println("====================================")
+    }
+}
